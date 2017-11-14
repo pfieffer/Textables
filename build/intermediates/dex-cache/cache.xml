@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="/home/ravi/AndroidStudioProjects/Textables/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="27.0.1"
+        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
+        <dex dex="/home/ravi/AndroidStudioProjects/Textables/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_5455d1382b92bb9a2101c2863e29e1cc71d0ef14/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/ravi/.android/build-cache/f903e34209f94fc13672fac550e02308082aeb01/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="27.0.1"
+        sha1="2cd4b982617e544728de0782d718a58ce1b06e3f">
+        <dex dex="/home/ravi/AndroidStudioProjects/Textables/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_d727f95a2c71291f34af03081c3009f428eef326/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/ravi/AndroidStudioProjects/Textables/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="27.0.1"
+        sha1="64b10f6516d428958829b837561cd3dd18d088cf">
+        <dex dex="/home/ravi/AndroidStudioProjects/Textables/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_f7b8fd0066d2f630e96680535931a3cf5dbef22f/classes.dex" />
+    </item>
+
+</items>
