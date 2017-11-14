@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,7 +20,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
@@ -28,6 +28,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import np.com.ravi.textables.model.Textable;
 
 
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, ListView.OnItemClickListener {
@@ -69,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     }
 
     private void makeNetworkRequestForTextables() {
-        final List<String> productsArrayList = new ArrayList<String>();
+        final List<String> textablessArrayList = new ArrayList<>();
 
 
         JsonArrayRequest jsonArrReq = new JsonArrayRequest(Request.Method.GET,
@@ -85,16 +87,38 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
                             for(int i =0; i<response.length(); i++){
                                 JSONObject textablesCategory = response.getJSONObject(i);
+
+
+                                Textable textableObject = new Textable();
+                                textableObject.setCategory(textablesCategory.getString("category"));
+
                                 JSONArray textablesItem = textablesCategory.getJSONArray("items");
                                 for (int j=0; j<textablesItem.length(); j++){
                                     JSONObject textable = textablesItem.getJSONObject(j);
                                     String name = textable.getString("name");
                                     String art = textable.getString("art");
-                                    Log.d("name", name);
-                                    Log.d("art", art);
+//                                    Log.d("name", name);
+//                                    Log.d("art", art);
+
+                                    textableObject.setName(name);
+                                    textableObject.setArt(art);
+
+//                                    Log.d("Category", textableObject.getCategory());
+//                                    Log.d("Name", textableObject.getName());
+//                                    Log.d("Art", textableObject.getArt());
+
+                                    textablessArrayList.add(textableObject.toString());
                                 }
 
                             }
+
+                            ArrayAdapter<String> textableArrayAdapter = new ArrayAdapter<String>(MainActivity.this,
+                                    android.R.layout.simple_list_item_1,
+                                    textablessArrayList);
+
+                            textablesListView.setAdapter(textableArrayAdapter);
+                            swipeRefreshLayout.setRefreshing(false);
+
 
 
                         } catch (JSONException e) {
@@ -114,7 +138,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             }
         });
         //adding request to request queue
-        //AppController.getmInstance().addToRequestQueue(jsonArrReq);
         requestQueue.add(jsonArrReq);
     }
 
@@ -131,11 +154,12 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     @Override
     public void onRefresh() {
+        makeNetworkRequestForTextables();
 
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+        
     }
 }
