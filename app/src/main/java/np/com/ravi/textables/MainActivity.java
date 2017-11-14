@@ -1,5 +1,7 @@
 package np.com.ravi.textables;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,10 +35,9 @@ import java.util.List;
 import np.com.ravi.textables.model.Textable;
 
 
-public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, ListView.OnItemClickListener {
+public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {//, ListView.OnItemLongClickListener {
     //json object response url
     private String urlForJsonArray = "https://raw.githubusercontent.com/OTGApps/Textables/master/resources/content.json";
-
 
     private ListView textablesListView;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -60,15 +62,28 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(this);
 
-        if (checkForConnection()){
+
+        if (checkForConnection()) {
             makeNetworkRequestForTextables();
-//            textablesListView.setVisibility(View.VISIBLE);
-        }
-        else{
+            noConnectionTextView.setVisibility(View.GONE);
+            textablesListView.setVisibility(View.VISIBLE);
+        } else {
             textablesListView.setVisibility(View.GONE);
             noConnectionTextView.setVisibility(View.VISIBLE);
         }
+
+        textablesListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("Art", textablesListView.getItemAtPosition(position).toString());
+                clipboard.setPrimaryClip(clip);
+                Toast.makeText(MainActivity.this, "Art copied to clipboard." ,Toast.LENGTH_LONG).show();
+                return  true;
+            }
+        });
     }
+
 
     private void makeNetworkRequestForTextables() {
         final List<String> textablessArrayList = new ArrayList<>();
@@ -85,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
                         try {
 
-                            for(int i =0; i<response.length(); i++){
+                            for (int i = 0; i < response.length(); i++) {
                                 JSONObject textablesCategory = response.getJSONObject(i);
 
 
@@ -93,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                                 textableObject.setCategory(textablesCategory.getString("category"));
 
                                 JSONArray textablesItem = textablesCategory.getJSONArray("items");
-                                for (int j=0; j<textablesItem.length(); j++){
+                                for (int j = 0; j < textablesItem.length(); j++) {
                                     JSONObject textable = textablesItem.getJSONObject(j);
                                     String name = textable.getString("name");
                                     String art = textable.getString("art");
@@ -120,7 +135,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                             swipeRefreshLayout.setRefreshing(false);
 
 
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                             Toast.makeText(getApplicationContext(),
@@ -133,14 +147,13 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                VolleyLog.d("Error: ", volleyError.getMessage() );
+                VolleyLog.d("Error: ", volleyError.getMessage());
                 Toast.makeText(getApplicationContext(), volleyError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         //adding request to request queue
         requestQueue.add(jsonArrReq);
     }
-
 
 
     private boolean checkForConnection() {
@@ -151,15 +164,19 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     }
 
 
-
     @Override
     public void onRefresh() {
-        makeNetworkRequestForTextables();
+        if (checkForConnection()) {
+            makeNetworkRequestForTextables();
+            noConnectionTextView.setVisibility(View.GONE);
+            textablesListView.setVisibility(View.VISIBLE);
+            swipeRefreshLayout.setRefreshing(false);
+        } else {
+            textablesListView.setVisibility(View.GONE);
+            noConnectionTextView.setVisibility(View.VISIBLE);
+            swipeRefreshLayout.setRefreshing(false);
+        }
 
     }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        
-    }
+    
 }
