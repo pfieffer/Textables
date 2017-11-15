@@ -17,5 +17,5 @@
 
 [![Screenshot_20171115-130044.jpg](https://s17.postimg.org/tpumxsgwf/Screenshot_20171115-130044.jpg)](https://postimg.org/image/472akrxcb/)
 
-[Screenshot_20171115-130055.jpg](https://postimg.org/image/e4dbdukdn/)
+[![Screenshot_20171115-130055.jpg](https://s17.postimg.org/qvrhkcu5r/Screenshot_20171115-130055.jpg)](https://postimg.org/image/e4dbdukdn/)
 
