@@ -12,8 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.ProgressBar;
+import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,18 +34,15 @@ import java.util.List;
 import np.com.ravi.textables.model.Textable;
 
 
-public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {//, ListView.OnItemLongClickListener {
+public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
     //json object response url
     private String urlForJsonArray = "https://raw.githubusercontent.com/OTGApps/Textables/master/resources/content.json";
 
-    private ListView textablesListView;
+    private GridView textablesGridView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private TextView noConnectionTextView;
 
     private RequestQueue requestQueue;
-
-    //temporary string to show the parsed response
-    private String jsonResponse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         // Creates the Volley request queue
         requestQueue = Volley.newRequestQueue(this);
 
-        textablesListView = (ListView) findViewById(R.id.textables_list_view);
+        textablesGridView = (GridView) findViewById(R.id.textables_grid_view);
         noConnectionTextView = (TextView) findViewById(R.id.no_connection_textview);
 
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
@@ -66,17 +62,18 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         if (checkForConnection()) {
             makeNetworkRequestForTextables();
             noConnectionTextView.setVisibility(View.GONE);
-            textablesListView.setVisibility(View.VISIBLE);
+            textablesGridView.setVisibility(View.VISIBLE);
         } else {
-            textablesListView.setVisibility(View.GONE);
+            textablesGridView.setVisibility(View.GONE);
             noConnectionTextView.setVisibility(View.VISIBLE);
         }
 
-        textablesListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+        textablesGridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("Art", textablesListView.getItemAtPosition(position).toString());
+                ClipData clip = ClipData.newPlainText("Art", textablesGridView.getItemAtPosition(position).toString());
                 clipboard.setPrimaryClip(clip);
                 Toast.makeText(MainActivity.this, "Art copied to clipboard." ,Toast.LENGTH_LONG).show();
                 return  true;
@@ -131,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                                     android.R.layout.simple_list_item_1,
                                     textablessArrayList);
 
-                            textablesListView.setAdapter(textableArrayAdapter);
+                            textablesGridView.setAdapter(textableArrayAdapter);
                             swipeRefreshLayout.setRefreshing(false);
 
 
@@ -169,10 +166,10 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         if (checkForConnection()) {
             makeNetworkRequestForTextables();
             noConnectionTextView.setVisibility(View.GONE);
-            textablesListView.setVisibility(View.VISIBLE);
+            textablesGridView.setVisibility(View.VISIBLE);
             swipeRefreshLayout.setRefreshing(false);
         } else {
-            textablesListView.setVisibility(View.GONE);
+            textablesGridView.setVisibility(View.GONE);
             noConnectionTextView.setVisibility(View.VISIBLE);
             swipeRefreshLayout.setRefreshing(false);
         }
