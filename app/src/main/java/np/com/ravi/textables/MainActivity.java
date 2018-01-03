@@ -72,8 +72,12 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         textablesGridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                String tmpString = parent.getItemAtPosition(position).toString();
+                String artString = tmpString.substring(tmpString.indexOf("\n") + 1);
+
+
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("Art", textablesGridView.getItemAtPosition(position).toString());
+                ClipData clip = ClipData.newPlainText("Art", artString);
                 clipboard.setPrimaryClip(clip);
                 Toast.makeText(MainActivity.this, "Art copied to clipboard." ,Toast.LENGTH_LONG).show();
                 return  true;
