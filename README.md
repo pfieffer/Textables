@@ -15,7 +15,6 @@
 
 ### The screenshots to the app are:
 
-[![Screenshot_20171115-130044.jpg](https://s17.postimg.org/tpumxsgwf/Screenshot_20171115-130044.jpg)](https://postimg.org/image/472akrxcb/)
+[![Screenshot_20180103-165631.jpg](https://s14.postimg.org/yg9dimncx/Screenshot_20180103-165631.jpg)](https://postimg.org/image/i599mbav1/)
 
-[![Screenshot_20171115-130055.jpg](https://s17.postimg.org/qvrhkcu5r/Screenshot_20171115-130055.jpg)](https://postimg.org/image/e4dbdukdn/)
-
+[![Screenshot_20180103-165637.jpg](https://s14.postimg.org/6g59ycrm9/Screenshot_20180103-165637.jpg)](https://postimg.org/image/pxzxeaojx/)
